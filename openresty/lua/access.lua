@@ -45,7 +45,6 @@ elseif client_req_count > ban_threshold then
   if tonumber(ttl) + ban_banned_time < ban_banned_max then
     res, err = r:expire('ngx:client:ip:' .. client_ip .. ':count', tonumber(ttl) + ban_banned_time)
   end
-  -- FIXME: Should delete ngx:client:ip:{{ client_ip }}:count if successfully verified in the recaptcha page.
   local source = ngx.encode_base64(ngx.var.scheme .. '://' .. ngx.var.host .. ':' .. ngx.var.server_port .. ngx.var.request_uri)
   local dest = recaptcha_upstream .. '?continue=' .. source
   ngx.redirect(dest, 302)
